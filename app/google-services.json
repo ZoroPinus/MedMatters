@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "786100385942",
+    "project_id": "medmatters-afc4e",
+    "storage_bucket": "medmatters-afc4e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:786100385942:android:5ab8329296379470086ab7",
+        "android_client_info": {
+          "package_name": "com.example.medmatters"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "786100385942-cps1uj3naq9ru5s66g4h5n4l8e8scpk6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.medmatters",
+            "certificate_hash": "b331dd6dd4b600ef5c23f381e1394c40e8c07c80"
+          }
+        },
+        {
+          "client_id": "786100385942-2esmejsntdf2cjlq9hfv5sfhg986u8sm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUwU0nwr9hAIwF5YLxXRJ0unisZ6XQINI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "786100385942-2esmejsntdf2cjlq9hfv5sfhg986u8sm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

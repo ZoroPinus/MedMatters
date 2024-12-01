@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MedMatters</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="auth_google_web_client">786100385942-2esmejsntdf2cjlq9hfv5sfhg986u8sm.apps.googleusercontent.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

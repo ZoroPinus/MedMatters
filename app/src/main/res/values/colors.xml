@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="primary">#CB90E4</color>
+    <color name="primaryWhite">#FCCBFF</color>
+    <color name="onWhite">#FFBEF9</color>
+    <color name="meds">#FF737B</color>
+    <color name="appointments">#ED33FF</color>
+    <color name="exercise">#8C044C</color>
+    <color name="green">#00A431</color>
+    <color name="grey">#DAB0DD</color>
+    <color name="floatingButton">#E587DC</color>
+
+</resources>
