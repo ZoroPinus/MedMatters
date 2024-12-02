@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.gms:play-services-auth:21.2.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation(libs.firebase.firestore)
-    implementation(libs.firebase.database)
+    implementation("com.google.firebase:firebase-database")
 }

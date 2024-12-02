@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primaryWhite"
+    android:orientation="vertical"
+    tools:context=".dashboard.ui.home.AddArticleActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:backgroundTint="@color/primaryWhite"
+        android:elevation="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingHorizontal="20dp"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                style="@style/TextAppBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create Article" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            style="@style/TextLarge"
+            android:fontFamily="@font/montserrat_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title" />
+        <EditText
+            android:id="@+id/title_input"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/text_input"
+            android:paddingVertical="10dp"
+            style="@style/TextLarge"
+            android:inputType="textMultiLine"
+            />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+        <TextView
+            style="@style/TextLarge"
+            android:fontFamily="@font/montserrat_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description" />
+        <EditText
+            android:id="@+id/description_input"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            style="@style/TextLarge"
+            android:background="@drawable/text_input"
+            android:paddingVertical="10dp"
+            android:inputType="textMultiLine"
+            />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+        <TextView
+            style="@style/TextLarge"
+            android:fontFamily="@font/montserrat_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload Image" />
+        <ImageView
+            android:id="@+id/image_input"
+            android:layout_width="match_parent"
+            android:src="@drawable/ic_camera"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:background="@drawable/dashed_border"
+            android:contentDescription="Selected Image"
+            android:scaleType="center"
+            android:layout_marginVertical="6dp"
+
+            />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+        <Button
+            android:id="@+id/submit_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:text="Submit"
+            style="@style/TextButton"
+            android:background="@drawable/button"
+            />
+    </LinearLayout>
+</LinearLayout>

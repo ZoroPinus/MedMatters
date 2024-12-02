@@ -7,7 +7,13 @@
     android:background="@color/primaryWhite"
     android:paddingBottom="75dp"
     >
-
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No articles yet"
+        android:visibility="gone"
+        android:layout_gravity="center" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -81,7 +87,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/article_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            />
 
     </LinearLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -91,6 +99,7 @@
         android:layout_gravity="bottom|right"
         android:src="@drawable/ic_new_doc"
         android:backgroundTint="@color/floatingButton"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="10dp"
         />
 </FrameLayout>
