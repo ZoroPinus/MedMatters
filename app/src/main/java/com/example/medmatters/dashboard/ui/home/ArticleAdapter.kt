@@ -35,10 +35,12 @@ class ArticleAdapter(private val articles: List<ArticleDataModel>) :
         // Load images using Glide
         Glide.with(holder.itemView.context)
             .load(currentArticle.profileImageUrl)
+            .error(R.drawable.ic_camera)
             .into(holder.profileImage)
 
         Glide.with(holder.itemView.context)
             .load(currentArticle.articleImageUrl)
+            .error(R.drawable.ic_camera)
             .into(holder.articleImage)
     }
 
