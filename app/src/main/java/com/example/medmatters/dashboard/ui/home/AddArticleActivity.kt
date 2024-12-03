@@ -13,6 +13,8 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.medmatters.databinding.ActivityAddArticleBinding
 import com.example.medmatters.utils.DateTimeUtils
 import com.google.firebase.Firebase
@@ -47,7 +49,6 @@ class AddArticleActivity : AppCompatActivity() {
                 }
             }
         }
-    // Helper function to get Uri from Bitmap
     private fun getImageUriFromBitmap(bitmap: Bitmap): Uri? {
         val bytes = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
@@ -65,9 +66,14 @@ class AddArticleActivity : AppCompatActivity() {
         binding.backButton.setOnClickListener {
             finish()
         }
-        // Set imageInput click listener
         binding.imageInput.setOnClickListener {
             showImagePickerDialog()
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
         }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -160,13 +166,6 @@ class AddArticleActivity : AppCompatActivity() {
 
         }
         }
-    }
-    private fun retrieveCachedUserInfo(): Map<String, String?> {
-        val sharedPrefs = getSharedPreferences("user_info", Context.MODE_PRIVATE)
-        val uid = sharedPrefs.getString("uid", null)
-        val email = sharedPrefs.getString("email", null)
-        val name = sharedPrefs.getString("name", null)
-        return mapOf("uid" to uid, "email" to email, "name" to name)
     }
 
 

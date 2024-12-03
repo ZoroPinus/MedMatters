@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.medmatters.R
+import com.example.medmatters.blogs.BlogDetailsActivity
 import com.example.medmatters.databinding.FragmentHomeBinding
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
@@ -21,6 +23,10 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var db: FirebaseFirestore
+    private var isLoading = false
+    private var isLastPage = false
+    private var lastVisibleDocument: DocumentSnapshot? = null
+    private val articlesPerPage = 6
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,7 +66,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateUIWithArticles(fetchedArticles: List<ArticleDataModel>) {
-        val adapter = ArticleAdapter(fetchedArticles)
+        val adapter = ArticleAdapter(fetchedArticles){ article ->
+            val intent = Intent(requireContext(), BlogDetailsActivity::class.java)
+            intent.putExtra("author", article.author)
+            intent.putExtra("articleTitle", article.articleTitle)
+            intent.putExtra("articleDescription", article.articleDescription)
+            intent.putExtra("articleImageUrl", article.articleImageUrl)
+            startActivity(intent)
+        }
         binding.articleList.adapter = adapter
 
         if (fetchedArticles.isEmpty()) {
@@ -103,7 +116,45 @@ class HomeFragment : Fragment() {
             }
         })
     }
-
+//    private fun fetchArticles() {
+//        isLoading = true
+//
+//        val query = if (lastVisibleDocument == null) {
+//            db.collection("articles")
+//                .orderBy("createdAt", Query.Direction.DESCENDING)
+//                .limit(articlesPerPage.toLong())
+//        } else {
+//            db.collection("articles")
+//                .orderBy("createdAt", Query.Direction.DESCENDING)
+//                .startAfter(lastVisibleDocument)
+//                .limit(articlesPerPage.toLong())
+//        }
+//
+//        query.get()
+//            .addOnSuccessListener { snapshot ->
+//                isLoading = false
+//
+//                if (snapshot.isEmpty) {
+//                    isLastPage = true
+//                    return@addOnSuccessListener
+//                }
+//
+//                val fetchedArticles = mutableListOf<ArticleDataModel>()
+//                for (document in snapshot.documents) {
+//                    val article = document.toObject(ArticleDataModel::class.java)
+//                    article?.let { fetchedArticles.add(it) }
+//                }
+//
+//                lastVisibleDocument = snapshot.documents.lastOrNull() // Update for next page
+//
+//                updateUIWithArticles(fetchedArticles)
+//            }
+//            .addOnFailureListener { exception ->
+//                isLoading = false
+//                Log.w("HomeFragment", "Error fetching articles: ", exception)
+//                // Handle error (e.g., show a message to the user)
+//            }
+//    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
