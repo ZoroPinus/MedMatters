@@ -7,7 +7,4 @@ data class ArticleDataModel(
     val profileImageUrl: String = "",
     val articleImageUrl: String = "",
     val createdAt: String =""
-) {
-    // No-argument constructor
-    constructor() : this("", "", "", "", "", "")
-}
+)

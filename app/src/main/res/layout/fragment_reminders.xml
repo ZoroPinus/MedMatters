@@ -3,12 +3,118 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".dashboard.ui.reminders.RemindersFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".dashboard.ui.reminders.RemindersFragment"
+    android:background="@color/primaryWhite"
+    android:orientation="vertical"
+    android:layout_marginBottom="80dp"
+    >
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:backgroundTint="@color/primaryWhite"
+        android:gravity="center"
+        >
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"
+            >
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:gravity="center"
+               android:text="Reminders"
+               style="@style/TextAppBar"
+               />
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp">
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/all_button_sort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:text="All"
+            android:background="@drawable/custom_button"
+            android:layout_marginHorizontal="6dp"
+            style="@style/TextButton"
+            android:textSize="8sp"
+            />
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/meds_button_sort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Meds"
+            android:background="@drawable/button"
+            android:layout_marginHorizontal="6dp"
+            style="@style/TextButton"
+            android:textSize="8sp"
+            />
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/appointments_button_sort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/appointments"
+            android:text="Appointments"
+            android:background="@drawable/custom_button"
+            android:layout_marginHorizontal="6dp"
+            style="@style/TextButton"
+            android:textSize="8sp"
+            />
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/exercise_button_sort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/exercise"
+            android:text="Exercise"
+            android:background="@drawable/custom_button"
+            android:layout_marginHorizontal="6dp"
+            style="@style/TextButton"
+            android:textSize="8sp"
+            />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/empty_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="No Reminders Created"
+        android:gravity="center"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reminders_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"/>
+
+    </LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_reminders_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add"
+        android:backgroundTint="@color/primary"
+        style="@style/TextButton"
+         />
 </FrameLayout>
