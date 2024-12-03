@@ -60,5 +60,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.2.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation(libs.firebase.firestore)
-    implementation("com.google.firebase:firebase-database")
+    implementation("com.google.firebase:firebase-storage")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 }

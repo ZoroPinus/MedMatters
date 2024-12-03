@@ -10,8 +10,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.medmatters.dashboard.DashboardActivity
 import com.example.medmatters.databinding.ActivityLoginBinding
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.firestore
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -60,8 +62,6 @@ class LoginActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                        val user = firebaseAuth.currentUser
-                        cacheUserInfo(user)
                         startActivity(
                             Intent(this@LoginActivity, DashboardActivity::class.java)
                                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -79,18 +79,20 @@ class LoginActivity : AppCompatActivity() {
 
     private fun cacheUserInfo(user: FirebaseUser?) {
         if (user != null) {
-            // Get user information you want to cache
             val uid = user.uid
             val email = user.email
-            // ... other user data
+            val db = Firebase.firestore
+            db.collection("users").document(uid).get().addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val userName = document.getString("name")
+                    val sharedPrefs = getSharedPreferences("user_info", Context.MODE_PRIVATE)
+                    val editor = sharedPrefs.edit()
+                    editor.putString("email", email)
+                    editor.putString("name", userName)
+                    editor.apply()
+                }
+            }
 
-            // Store the data in SharedPreferences or other caching mechanism
-            val sharedPrefs = getSharedPreferences("user_info", Context.MODE_PRIVATE)
-            val editor = sharedPrefs.edit()
-            editor.putString("uid", uid)
-            editor.putString("email", email)
-            // ... store other data
-            editor.apply()
         }
     }
 }

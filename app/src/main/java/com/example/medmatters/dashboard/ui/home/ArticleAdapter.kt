@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.medmatters.R
 import com.example.medmatters.dashboard.ui.home.ArticleDataModel
 
-class ArticleAdapter(private val articles: List<ArticleDataModel>) :
+class ArticleAdapter(private val articles: List<ArticleDataModel>, private val onItemClick: (ArticleDataModel) -> Unit) :
     RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
 
     class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -35,11 +35,17 @@ class ArticleAdapter(private val articles: List<ArticleDataModel>) :
         // Load images using Glide
         Glide.with(holder.itemView.context)
             .load(currentArticle.profileImageUrl)
+            .error(R.drawable.ic_camera)
             .into(holder.profileImage)
 
         Glide.with(holder.itemView.context)
             .load(currentArticle.articleImageUrl)
+            .error(R.drawable.ic_camera)
             .into(holder.articleImage)
+
+        holder.itemView.setOnClickListener {
+            onItemClick(currentArticle)
+        }
     }
 
     override fun getItemCount(): Int {
