@@ -28,7 +28,7 @@ class RemindersFragment : Fragment() {
         _binding = FragmentRemindersBinding.inflate(inflater, container, false)
         db = FirebaseFirestore.getInstance()
         setupRecyclerView()
-
+        fetchReminders()
         binding.allButtonSort.setOnClickListener { fetchReminders(category = null) }
         binding.medsButtonSort.setOnClickListener { fetchReminders(category = "Meds") }
         binding.appointmentsButtonSort.setOnClickListener { fetchReminders(category = "Appointments") }

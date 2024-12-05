@@ -30,8 +30,6 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-
-
         firebaseAuth = FirebaseAuth.getInstance()
         val firebaseUser: FirebaseUser? = firebaseAuth.currentUser
         if (firebaseUser != null) {

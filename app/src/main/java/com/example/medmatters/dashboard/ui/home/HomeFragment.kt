@@ -35,6 +35,8 @@ class HomeFragment : Fragment() {
         db = FirebaseFirestore.getInstance()
 
         // Fetch articles from Firestore
+
+
         db.collection("articles")
             .orderBy("createdAt", Query.Direction.DESCENDING) // Order by creation time
             .addSnapshotListener { snapshot, e ->
