@@ -11,6 +11,8 @@ import com.example.medmatters.databinding.ActivityBlogDetailsBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class BlogDetailsActivity : AppCompatActivity() {
@@ -27,11 +29,12 @@ class BlogDetailsActivity : AppCompatActivity() {
         val articleTitle = intent.getStringExtra("articleTitle")
         val articleDescription = intent.getStringExtra("articleDescription")
         val articleImageUrl = intent.getStringExtra("articleImageUrl")
+        val createdAt = intent.getStringExtra("createdAt")
         val articleId = intent.getStringExtra("articleId")
-
         binding.blogTitle.text = articleTitle
         binding.blogDescription.text = articleDescription
         binding.author.text = author
+        binding.dateText.text = createdAt
 
         Glide.with(this)
             .load(R.drawable.ic_profile)
