@@ -19,6 +19,7 @@ import com.example.medmatters.databinding.ActivityAddArticleBinding
 import com.example.medmatters.utils.DateTimeUtils
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.storage
 import java.io.ByteArrayOutputStream
@@ -134,7 +135,8 @@ class AddArticleActivity : AppCompatActivity() {
                     "authorId" to userId,
                     "createdAt" to currentTime,
                     "articleImageUrl" to "",
-                    "profileImageUrl" to ""
+                    "profileImageUrl" to "",
+                    "likers" to FieldValue.arrayUnion()
                 )
                 // Upload image first
                 val imageRef = storageRef.child("images/${selectedImageUri!!.lastPathSegment}")
