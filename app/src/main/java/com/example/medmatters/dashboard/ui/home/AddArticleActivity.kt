@@ -134,7 +134,7 @@ class AddArticleActivity : AppCompatActivity() {
                     "articleDescription" to description,
                     "author" to userName,
                     "authorId" to userId,
-                    "createdAt" to currentTime.toString(),
+                    "createdAt" to currentTime,
                     "articleImageUrl" to "",
                     "profileImageUrl" to "",
                     "likers" to FieldValue.arrayUnion()

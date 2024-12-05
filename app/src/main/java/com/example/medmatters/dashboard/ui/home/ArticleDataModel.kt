@@ -9,7 +9,7 @@ data class ArticleDataModel(
     val articleDescription: String = "",
     val profileImageUrl: String = "",
     val articleImageUrl: String = "",
-    val createdAt: String = ""
+    val createdAt: Timestamp? = null
 ){
-    constructor() : this("", "", "", "", "", "", "")
+    constructor() : this("", "", "", "", "", "", null)
 }
