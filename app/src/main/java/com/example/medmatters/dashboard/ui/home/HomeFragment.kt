@@ -100,8 +100,7 @@ class HomeFragment : Fragment() {
             intent.putExtra("articleTitle", article.articleTitle)
             intent.putExtra("articleDescription", article.articleDescription)
             intent.putExtra("articleImageUrl", article.articleImageUrl)
-            intent.putExtra("createdAt",
-                article.createdAt?.let { DateTimeUtils.timestampToReadableString(it) })
+            intent.putExtra("createdAt", article.createdAt)
             intent.putExtra("articleId", article.id)
             startActivity(intent)
         }
