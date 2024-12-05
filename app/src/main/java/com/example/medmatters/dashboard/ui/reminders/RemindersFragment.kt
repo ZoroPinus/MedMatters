@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.medmatters.dashboard.ui.home.ArticleDataModel
 import com.example.medmatters.databinding.FragmentRemindersBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -21,6 +22,7 @@ class RemindersFragment : Fragment() {
     private lateinit var db: FirebaseFirestore
     private lateinit var adapter: RemindersAdapter
     private val reminderList = mutableListOf<ReminderDataModel>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,7 +30,7 @@ class RemindersFragment : Fragment() {
         _binding = FragmentRemindersBinding.inflate(inflater, container, false)
         db = FirebaseFirestore.getInstance()
         setupRecyclerView()
-        fetchReminders()
+        fetchReminders(category = null)
         binding.allButtonSort.setOnClickListener { fetchReminders(category = null) }
         binding.medsButtonSort.setOnClickListener { fetchReminders(category = "Meds") }
         binding.appointmentsButtonSort.setOnClickListener { fetchReminders(category = "Appointments") }
@@ -37,11 +39,27 @@ class RemindersFragment : Fragment() {
             val addRemindersDialogFragment = AddRemindersFragment()
             addRemindersDialogFragment.show(childFragmentManager, "add_reminders_dialog")
         }
+
         return binding.root
 
     }
+    fun deleteReminder(reminderId: String) {
+        db.collection("reminders")
+            .document(reminderId)
+            .delete()
+            .addOnSuccessListener {
+                Log.d(TAG, "Reminder deleted successfully")
+                Toast.makeText(requireContext(), "Reminder deleted", Toast.LENGTH_SHORT).show()
+                // You might want to refresh the reminder list here
+                fetchReminders()
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error deleting reminder", e)
+                Toast.makeText(requireContext(), "Error deleting reminder", Toast.LENGTH_SHORT).show()
+            }
+    }
     private fun setupRecyclerView() {
-        adapter = RemindersAdapter(requireContext(), reminderList)
+        adapter = RemindersAdapter(requireContext(), reminderList, this)
         binding.remindersRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = this@RemindersFragment.adapter
@@ -76,9 +94,8 @@ class RemindersFragment : Fragment() {
                     reminderList.clear()
                     for (document in querySnapshot!!) {
                         val reminder = document.toObject(ReminderDataModel::class.java)
+                        reminder.reminderId = document.id
                         reminderList.add(reminder)
-                        Log.d("ReminderAdapter", "Reminder ID: ${reminder.userId}, isPinned: ${reminder.isPinned}")
-                        Log.d("ReminderAdapter", "Reminder ID: ${reminder.userId}, isPinned: ${document.data}")
                     }
 
                     adapter.notifyDataSetChanged()
@@ -106,6 +123,7 @@ class RemindersFragment : Fragment() {
                     reminderList.clear()
                     for (document in querySnapshot!!) {
                         val reminder = document.toObject(ReminderDataModel::class.java)
+                        reminder.reminderId = document.id
                         reminderList.add(reminder)
                     }
                     adapter.notifyDataSetChanged()

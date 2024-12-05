@@ -1,12 +1,15 @@
 package com.example.medmatters.dashboard.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.medmatters.databinding.FragmentProfileBinding
+import com.example.medmatters.reading_list.ReadingListActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -42,10 +45,13 @@ class ProfileFragment : Fragment() {
                     }
                 }
                 .addOnFailureListener { exception ->
-                    // Handle errors
+                    Toast.makeText(requireContext(), "Error: ${exception.message}", Toast.LENGTH_SHORT).show()
                 }
         }
-
+        binding.readingListCard.setOnClickListener {
+            val intent = Intent(requireContext(), ReadingListActivity::class.java)
+            startActivity(intent)
+        }
         binding.logoutButton.setOnClickListener {
             auth.signOut()
             requireActivity().finish()

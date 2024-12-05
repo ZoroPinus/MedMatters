@@ -1,9 +1,12 @@
 package com.example.medmatters.dashboard.ui.reminders
 
+import android.app.DatePickerDialog
 import android.app.Dialog
+import android.app.TimePickerDialog
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.res.ColorStateList
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,12 +19,18 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.example.medmatters.R
 import com.example.medmatters.databinding.FragmentAddRemindersBinding
 import com.example.medmatters.utils.DateTimeUtils
+import com.example.medmatters.utils.ReminderWorker
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
+import java.util.concurrent.TimeUnit
 
 
 class AddRemindersFragment : DialogFragment() {
@@ -29,6 +38,8 @@ class AddRemindersFragment : DialogFragment() {
     private var _binding: FragmentAddRemindersBinding? = null
     private val binding get() = _binding!!
     private var isPinned = false
+    private var selectedDate: Calendar? = null
+    private var selectedTime: Calendar? = null
     data class Category(val id: Int, val name: String)
     inner class CategorySpinnerAdapter(context: Context, categories: List<Category>) : ArrayAdapter<Category>(context, 0, categories) {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -57,6 +68,50 @@ class AddRemindersFragment : DialogFragment() {
             binding.pinStatus.setOnClickListener {
                 isPinned = !isPinned
                 updatePinImage()
+            }
+
+            binding.datePickerButton.setOnClickListener {
+                val currentCalendar = Calendar.getInstance()
+                val year = currentCalendar.get(Calendar.YEAR)
+                val month = currentCalendar.get(Calendar.MONTH)
+                val day = currentCalendar.get(Calendar.DAY_OF_MONTH)
+
+                val datePickerDialog = DatePickerDialog(
+                    requireContext(), // or 'this' if in an Activity
+                    { _, year, month, dayOfMonth ->
+                        selectedDate = Calendar.getInstance().apply {
+                            set(year, month, dayOfMonth)
+                        }
+                        // Update the button text or display the selected date
+                        binding.datePickerButton.text = "${month + 1}/${dayOfMonth}/${year}"
+                    },
+                    year,
+                    month,
+                    day
+                )
+                datePickerDialog.show()
+            }
+
+            binding.timePickerButton.setOnClickListener {
+                val currentCalendar = Calendar.getInstance()
+                val hour = currentCalendar.get(Calendar.HOUR_OF_DAY)
+                val minute = currentCalendar.get(Calendar.MINUTE)
+
+                val timePickerDialog = TimePickerDialog(
+                    requireContext(), // or 'this' if in an Activity
+                    { _, hourOfDay, minute ->
+                        selectedTime = Calendar.getInstance().apply {
+                            set(Calendar.HOUR_OF_DAY, hourOfDay)
+                            set(Calendar.MINUTE, minute)
+                        }
+                        // Update the button text or display the selected time
+                        binding.timePickerButton.text = String.format("%02d:%02d", hourOfDay, minute)
+                    },
+                    hour,
+                    minute,
+                    true // is24HourView
+                )
+                timePickerDialog.show()
             }
             return view
         }
@@ -107,6 +162,22 @@ class AddRemindersFragment : DialogFragment() {
         val currentUser = Firebase.auth.currentUser
         val selectedCategory = binding.categoryDropdown.selectedItem as Category
         val currentTime = DateTimeUtils.getCurrentDateTimeInPhilippines()
+
+
+        val reminderDateTime = Calendar.getInstance().apply {
+            if (selectedDate != null) {
+                set(Calendar.YEAR, selectedDate!!.get(Calendar.YEAR))
+                set(Calendar.MONTH, selectedDate!!.get(Calendar.MONTH))
+                set(Calendar.DAY_OF_MONTH, selectedDate!!.get(Calendar.DAY_OF_MONTH))
+            }
+            if (selectedTime != null) {
+                set(Calendar.HOUR_OF_DAY, selectedTime!!.get(Calendar.HOUR_OF_DAY))
+                set(Calendar.MINUTE, selectedTime!!.get(Calendar.MINUTE))
+                set(Calendar.SECOND, 0) // Set seconds to 0
+                set(Calendar.MILLISECOND, 0) // Set milliseconds to 0
+            }
+        }.timeInMillis
+
         if (currentUser != null) {
             val reminderData = hashMapOf(
                 "title" to binding.titleInput.text.toString(),
@@ -114,18 +185,22 @@ class AddRemindersFragment : DialogFragment() {
                 "category" to selectedCategory.name,
                 "userId" to currentUser.uid,
                 "isPinned" to isPinned,
-                "createdAt" to currentTime
+                "createdAt" to currentTime,
+                "reminderDateTime" to reminderDateTime
             )
 
             db.collection("reminders")
                 .add(reminderData)
                 .addOnSuccessListener { documentReference ->
-                    // Reminder added successfully
                     Log.d(TAG, "Reminder added with ID: ${documentReference.id}")
+
+                    scheduleNotification(documentReference.id, reminderDateTime)
+
                     Toast.makeText(requireContext(), "Reminder added successfully", Toast.LENGTH_SHORT).show()
+                    // You might want to close the dialog or navigate back here
+                    dismiss() // Close the dialog
                 }
                 .addOnFailureListener { e ->
-                    // Handle error
                     Log.w(TAG, "Error adding reminder", e)
                     Toast.makeText(requireContext(), "Error adding reminder", Toast.LENGTH_SHORT).show()
                 }
@@ -134,6 +209,20 @@ class AddRemindersFragment : DialogFragment() {
             Log.w(TAG, "User not logged in")
             Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show()
         }
+    }
+    private fun scheduleNotification(reminderId: String, reminderDateTime: Long) {
+        val triggerTime = reminderDateTime
+
+        val request = OneTimeWorkRequestBuilder<ReminderWorker>()
+            .setInputData(workDataOf("reminderId" to reminderId))
+            .setInitialDelay(triggerTime - System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+            .build()
+
+        WorkManager.getInstance(requireContext()).enqueueUniqueWork(
+            reminderId,
+            ExistingWorkPolicy.REPLACE,
+            request
+        )
     }
     override fun onDestroyView() {
         super.onDestroyView()

@@ -15,7 +15,8 @@ import java.util.Locale
 
 class RemindersAdapter(
     private val context: Context,
-    private val reminderList: MutableList<ReminderDataModel>
+    private val reminderList: MutableList<ReminderDataModel>,
+    private val fragment: RemindersFragment
 ) : RecyclerView.Adapter<RemindersAdapter.ReminderViewHolder>() {
 
     inner class ReminderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -24,6 +25,7 @@ class RemindersAdapter(
         val date: TextView = itemView.findViewById(R.id.reminder_date)
         val category: TextView = itemView.findViewById(R.id.category_text)
         val pinStatus: ImageView = itemView.findViewById(R.id.pin_status)
+        val deleteButton: ImageView = itemView.findViewById(R.id.delete_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReminderViewHolder {
@@ -39,6 +41,9 @@ class RemindersAdapter(
         holder.date.text = dateString
         holder.category.text = reminder.category
         holder.pinStatus.visibility = if (reminder.getIsPinned()) View.VISIBLE else View.GONE
+        holder.deleteButton.setOnClickListener {
+            fragment.deleteReminder(reminder.reminderId)
+        }
         val backgroundTint = when (reminder.category) {
             "Appointments" -> R.color.appointments
             "Meds" -> R.color.meds

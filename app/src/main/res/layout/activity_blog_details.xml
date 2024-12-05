@@ -36,19 +36,30 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     >
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/share_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_share"
+                        android:background="@drawable/custom_button"
                         android:padding="10dp"
                         />
-                    <ImageView
-                        android:id="@+id/menu_button"
+                    <ImageButton
+                        android:id="@+id/save_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_menu"
+                        android:src="@drawable/ic_save"
+                        android:background="@drawable/custom_button"
                         android:padding="10dp"
+                        />
+                    <ImageButton
+                        android:id="@+id/delete_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_delete"
+                        android:background="@drawable/custom_button"
+                        android:padding="10dp"
+                        android:visibility="gone"
                         />
                 </LinearLayout>
             </LinearLayout>

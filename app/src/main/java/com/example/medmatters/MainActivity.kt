@@ -9,8 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.medmatters.auth.LoginActivity
+import com.example.medmatters.dashboard.DashboardActivity
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -20,15 +25,17 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        // Handle user isLoggedin or isLogSessionTimedOut
-        Handler(Looper.getMainLooper()).postDelayed({
-            val i = Intent(
-                this@MainActivity,
-                LoginActivity::class.java
-            )
-            startActivity(i)
+        auth = Firebase.auth
 
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            startActivity(Intent(this, DashboardActivity::class.java))
             finish()
-        }, 500)
+        } else {
+            Handler(Looper.getMainLooper()).postDelayed({
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }, 500)
+        }
     }
 }
