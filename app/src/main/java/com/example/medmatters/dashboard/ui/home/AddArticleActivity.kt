@@ -2,13 +2,13 @@ package com.example.medmatters.dashboard.ui.home
 
 import android.app.Activity
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -112,6 +112,7 @@ class AddArticleActivity : AppCompatActivity() {
         val user = Firebase.auth.currentUser
         val userId = user?.uid
         val currentTime = DateTimeUtils.getCurrentDateTimeInPhilippines()
+        binding.progressBar.visibility = View.VISIBLE
         if (title.isEmpty() ) {
             Toast.makeText(this, "Please enter a blog title", Toast.LENGTH_SHORT).show()
             return
@@ -133,7 +134,7 @@ class AddArticleActivity : AppCompatActivity() {
                     "articleDescription" to description,
                     "author" to userName,
                     "authorId" to userId,
-                    "createdAt" to currentTime,
+                    "createdAt" to currentTime.toString(),
                     "articleImageUrl" to "",
                     "profileImageUrl" to "",
                     "likers" to FieldValue.arrayUnion()
@@ -160,10 +161,13 @@ class AddArticleActivity : AppCompatActivity() {
                             Log.w(TAG, "Error getting download URL", e)
                             Toast.makeText(this, "Error getting download URL", Toast.LENGTH_SHORT).show()
                         }
+                        binding.progressBar.visibility = View.VISIBLE
                     } else {
+                        binding.progressBar.visibility = View.VISIBLE
                         Log.w(TAG, "Image upload failed", task.exception)
                         Toast.makeText(this, "Image upload failed", Toast.LENGTH_SHORT).show()
                     }
+
             }
 
         }
