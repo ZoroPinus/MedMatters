@@ -1,16 +1,12 @@
 package com.example.medmatters.utils
 
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import com.google.firebase.Timestamp
+import java.util.Calendar
 import java.util.TimeZone
-
 object DateTimeUtils {
 
-    fun getCurrentDateTimeInPhilippines(): String {
-        val currentTime = Date()
-        val formatter = SimpleDateFormat("MMMM d, yyyy EEEE h:mm a z", Locale.getDefault())
-        formatter.timeZone = TimeZone.getTimeZone("Asia/Manila")
-        return formatter.format(currentTime)
+    fun getCurrentDateTimeInPhilippines(): Timestamp {
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Manila"))
+        return Timestamp(calendar.time)
     }
 }

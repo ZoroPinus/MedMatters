@@ -4,10 +4,15 @@
     android:layout_height="100dp"
     android:elevation="10dp"
     android:backgroundTint="@color/onWhite"
+    android:layout_marginVertical="8dp"
+
     >
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="10dp"
+        >
         <ImageView
             android:id="@+id/pin_status"
             android:layout_width="30dp"
