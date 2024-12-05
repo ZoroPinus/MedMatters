@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.example.medmatters.R
 import com.example.medmatters.blogs.BlogDetailsActivity
 import com.example.medmatters.databinding.FragmentHomeBinding
+import com.example.medmatters.reading_list.ReadingListActivity
 import com.example.medmatters.utils.DateTimeUtils
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -70,6 +71,10 @@ class HomeFragment : Fragment() {
         })
         binding.addWasteButton.setOnClickListener {
             val intent = Intent(requireContext(), AddArticleActivity::class.java)
+            startActivity(intent)
+        }
+        binding.saveButton.setOnClickListener {
+            val intent = Intent(requireContext(), ReadingListActivity::class.java)
             startActivity(intent)
         }
         return binding.root

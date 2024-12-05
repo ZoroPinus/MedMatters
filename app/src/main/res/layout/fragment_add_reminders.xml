@@ -40,14 +40,48 @@
             android:fontFamily="@font/montserrat_bold"
             android:layout_gravity="right"
             />
-        <Spinner
-            android:id="@+id/category_dropdown"
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/custom_button"
-            android:padding="5dp"
-            style="@style/TextMedium"
-            />
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:layout_margin="10dp"
+            android:gravity="right"
+            >
+            <Spinner
+                android:id="@+id/category_dropdown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_button"
+                android:padding="5dp"
+                style="@style/TextMedium"
+                />
+            <Space
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+            <Button
+                android:id="@+id/date_picker_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                style="@style/TextLarge"
+                android:background="@drawable/custom_button"
+                android:fontFamily="@font/montserrat_bold"
+                android:padding="5dp" />
+
+            <Button
+                android:id="@+id/time_picker_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                style="@style/TextLarge"
+                android:background="@drawable/custom_button"
+                android:fontFamily="@font/montserrat_bold"
+                android:padding="5dp" />
+
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
