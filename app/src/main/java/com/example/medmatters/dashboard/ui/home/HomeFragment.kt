@@ -34,9 +34,6 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         db = FirebaseFirestore.getInstance()
 
-        // Fetch articles from Firestore
-
-
         db.collection("articles")
             .orderBy("createdAt", Query.Direction.DESCENDING) // Order by creation time
             .addSnapshotListener { snapshot, e ->
@@ -49,6 +46,7 @@ class HomeFragment : Fragment() {
                     val fetchedArticles = mutableListOf<ArticleDataModel>()
                     for (document in snapshot.documents) {
                         val article = document.toObject(ArticleDataModel::class.java)
+                        article?.id = document.id
                         article?.let { fetchedArticles.add(it) }
                     }
 
@@ -74,6 +72,7 @@ class HomeFragment : Fragment() {
             intent.putExtra("articleTitle", article.articleTitle)
             intent.putExtra("articleDescription", article.articleDescription)
             intent.putExtra("articleImageUrl", article.articleImageUrl)
+            intent.putExtra("articleId", article.id)
             startActivity(intent)
         }
         binding.articleList.adapter = adapter

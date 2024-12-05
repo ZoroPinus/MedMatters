@@ -1,7 +1,8 @@
 package com.example.medmatters.dashboard.ui.home
 
 data class ArticleDataModel(
-    val author: String = "", // Provide default values for all properties
+    var id: String = "",
+    val author: String = "",
     val articleTitle: String = "",
     val articleDescription: String = "",
     val profileImageUrl: String = "",
