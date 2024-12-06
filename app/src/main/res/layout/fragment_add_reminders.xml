@@ -46,11 +46,11 @@
             android:minWidth="350dp"
             android:background="@drawable/text_input"
             >
+
             <TextView
                 android:id="@+id/reminder_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Name of"
                 style="@style/TextLarge"
                 android:fontFamily="@font/montserrat_bold"
                 />

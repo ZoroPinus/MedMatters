@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window.FEATURE_NO_TITLE
 import android.view.WindowManager
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
@@ -131,6 +132,34 @@ class AddRemindersFragment : DialogFragment() {
         val adapter = CategorySpinnerAdapter(requireContext(), categories)
         binding.categoryDropdown.adapter = adapter
         binding.categoryDropdown.setSelection(0)
+
+        val reminderTitleTextView: TextView = binding.reminderTitle
+        reminderTitleTextView.text = when (categorySelected) {
+            "Meds" -> "Name of Meds"
+            "Appointments" -> "Name of Appointments"
+            "Exercise" -> "Name of Exercise"
+            else -> "Name of Meds" // Default text
+        }
+
+        binding.categoryDropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedCategory = parent?.getItemAtPosition(position) as Category
+                val categoryName = selectedCategory.name
+
+                // Update the TextView text based on the selected category
+                reminderTitleTextView.text = when (categoryName) {
+                    "Meds" -> "Name of Meds"
+                    "Appointments" -> "Name of Appointments"
+                    "Exercise" -> "Name of Exercise"
+                    else -> "Name of Meds" // Default text
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Do nothing
+            }
+        }
+
         binding.saveButton.setOnClickListener {
             addReminder()
         }
