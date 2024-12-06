@@ -22,6 +22,7 @@ class RemindersFragment : Fragment() {
     private lateinit var db: FirebaseFirestore
     private lateinit var adapter: RemindersAdapter
     private val reminderList = mutableListOf<ReminderDataModel>()
+    private var categorySelected: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,6 +37,9 @@ class RemindersFragment : Fragment() {
         binding.exerciseButtonSort.setOnClickListener { fetchReminders(category = "Exercise") }
         binding.addRemindersButton.setOnClickListener {
             val addRemindersDialogFragment = AddRemindersFragment()
+            val bundle = Bundle()
+            bundle.putString("categorySelected", categorySelected)
+            addRemindersDialogFragment.arguments = bundle
             addRemindersDialogFragment.show(childFragmentManager, "add_reminders_dialog")
         }
 
@@ -67,6 +71,7 @@ class RemindersFragment : Fragment() {
     }
 
     private fun fetchReminders(category: String? = null) {
+        categorySelected = category
         val currentUser = Firebase.auth.currentUser
         if (currentUser != null) {
             val query = db.collection("reminders")

@@ -58,10 +58,10 @@ class AddRemindersFragment : DialogFragment() {
             textView.text = category?.name
 
             // Set background tint based on category
-            when (category?.id) {
-                1 -> view.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.appointments))
-                2 -> view.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.meds))
-                3 -> view.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.exercise))
+            when (category?.name) {
+                "Meds" -> view.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.meds))
+                "Appointments" -> view.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.appointments))
+                "Exercise" -> view.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.exercise))
                 // Add more cases for other categories
                 else -> view.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white))
             }
@@ -121,13 +121,16 @@ class AddRemindersFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddRemindersBinding.inflate(inflater, container, false)
-        val categories = listOf(
-            Category(1, "Meds"),
-            Category(2, "Appointments"),
-            Category(3, "Exercise"),
-        )
+        val categorySelected = arguments?.getString("categorySelected")
+        val categories = when (categorySelected) {
+            "Meds" -> listOf(Category(1, "Meds"), Category(2, "Appointments"), Category(3, "Exercise"))
+            "Appointments" -> listOf(Category(2, "Appointments"), Category(1, "Meds"), Category(3, "Exercise"))
+            "Exercise" -> listOf(Category(3, "Exercise"), Category(1, "Meds"), Category(2, "Appointments"))
+            else -> listOf(Category(1, "Meds"), Category(2, "Appointments"), Category(3, "Exercise")) // Default order
+        }
         val adapter = CategorySpinnerAdapter(requireContext(), categories)
         binding.categoryDropdown.adapter = adapter
+        binding.categoryDropdown.setSelection(0)
         binding.saveButton.setOnClickListener {
             addReminder()
         }
