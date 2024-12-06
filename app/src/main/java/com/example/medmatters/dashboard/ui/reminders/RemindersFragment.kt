@@ -22,7 +22,6 @@ class RemindersFragment : Fragment() {
     private lateinit var db: FirebaseFirestore
     private lateinit var adapter: RemindersAdapter
     private val reminderList = mutableListOf<ReminderDataModel>()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,6 +42,7 @@ class RemindersFragment : Fragment() {
         return binding.root
 
     }
+
     fun deleteReminder(reminderId: String) {
         db.collection("reminders")
             .document(reminderId)

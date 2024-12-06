@@ -122,8 +122,8 @@ class AddRemindersFragment : DialogFragment() {
     ): View {
         _binding = FragmentAddRemindersBinding.inflate(inflater, container, false)
         val categories = listOf(
-            Category(1, "Appointments"),
-            Category(2, "Meds"),
+            Category(1, "Meds"),
+            Category(2, "Appointments"),
             Category(3, "Exercise"),
         )
         val adapter = CategorySpinnerAdapter(requireContext(), categories)
